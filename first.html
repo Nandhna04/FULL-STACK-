@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Photo Album</title>
+    <style>
+        /* Style the image container */
+        .image-container {
+            display: flex; /* Use flexbox to arrange images horizontally */
+            flex-wrap: wrap; /* Allow images to wrap to the next line if needed */
+        }
+
+        /* Style individual images */
+        .image-container img {
+            width: 300px; /* Set a fixed width for all images */
+            height: auto; /* Maintain aspect ratio */
+            margin: 10px; /* Add some space around each image */
+        }
+    </style>
+</head>
+<body>
+    <h1>PHOTO ALBUM</h1>
+    <button onclick="checkColor('reddish')">Make Reddish</button>
+    <button onclick="checkColor('blueish')">Make Blueish</button>
+    <button onclick="checkColor('greenish')">Make Greenish</button>
+    <button onclick="duplicateImage()">Duplicate Image</button>
+    <button onclick="increaseBrightness()">Increase Brightness</button>
+    <button onclick="increaseBrightness()">Decrease Brightness</button>
+    <button onclick="reduceResolution()">Reduce Resolution</button>
+    <button onclick="convertToGrayscale()">Convert to Grayscale</button>
+    <!-- Add more buttons and functionality as needed -->
+
+    <div class="image-container">
+        <img src="https://www.shutterstock.com/image-illustration/old-fairytale-castle-on-hill-600nw-699336349.jpg" alt="First Image">
+        <img src="https://cdn.pixabay.com/photo/2015/11/19/21/10/glasses-1052010_640.jpg" alt="Second Image">
+        <img src="https://cdn.pixabay.com/photo/2020/05/01/11/00/castle-5116436_640.jpg" alt="Third Image">
+        <img src="https://img.freepik.com/premium-photo/opened-book-with-flying-pages-butterflies-dark-backgroundgenerative-ai_391052-12859.jpg" alt="Fourth Image">
+        <img src="https://www.theasianschool.net/blog/wp-content/uploads/2023/01/Here-Know-Why-Books-Are-Important-in-Students-Life-1.jpg" alt="Fifth Image">
+        <img src="https://www.vets4pets.com/siteassets/species/dog/puppy/husky-puppy-on-dog-walk.jpg?width=1040" alt="Sixth Image">
+        <img src="https://img.freepik.com/free-photo/cute-puppy-sitting-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg" alt="Seventh Image">
+        <img src="https://rukminim2.flixcart.com/image/850/1000/xif0q/poster/6/o/q/small-spos12970-poster-golden-retriever-dogs-dog-puppy-baby-sl-original-imaggefjgfkuwhza.jpeg?q=90&crop=false" alt="Eighth image">
+    </div>
+
+    <script>
+        function checkColor(color) {
+            let images = document.querySelectorAll('.image-container img');
+            images.forEach(img => {
+                let canvas = document.createElement('canvas');
+                let ctx = canvas.getContext('2d');
+                let image = new Image();
+                image.src = img.src;
+                image.onload = function() {
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+                    ctx.drawImage(image, 0, 0, image.width, image.height);
+                    let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    let pixels = imageData.data;
+                    let redCount = 0, greenCount = 0, blueCount = 0;
+                    for (let i = 0; i < pixels.length; i += 4) {
+                        let red = pixels[i];
+                        let green = pixels[i + 1];
+                        let blue = pixels[i + 2];
+                        if (red > green + blue) {
+                            redCount++;
+                        } else if (blue > red + green) {
+                            blueCount++;
+                        } else if (green > red + blue) {
+                            greenCount++;
+                        }
+                    }
+                    let totalPixels = pixels.length / 4;
+                    let redPercentage = (redCount / totalPixels) * 100;
+                    let bluePercentage = (blueCount / totalPixels) * 100;
+                    let greenPercentage = (greenCount / totalPixels) * 100;
+                    if (color === 'reddish' && redPercentage > 50) {
+                        // If image is reddish
+                        img.style.filter = "sepia(100%)";
+                    } else if (color === 'blueish' && bluePercentage > 50) {
+                        // If image is blueish
+                        img.style.filter = "grayscale(100%)";
+                    } else if (color === 'greenish' && greenPercentage > 50) {
+                        // If image is greenish
+                        img.style.filter = "hue-rotate(90deg)";
+                    }
+                }
+            });
+        }
+
+        function duplicateImage() {
+            let images = document.querySelectorAll('.image-container img');
+            images.forEach(img => {
+                let clone = img.cloneNode(true);
+                document.querySelector('.image-container').appendChild(clone);
+            });
+        }
+
+        function increaseBrightness() {
+            let images = document.querySelectorAll('.image-container img');
+            images.forEach(img => {
+                img.style.filter = "brightness(150%)";
+            });
+        }
+
+         function DecreaseBrightness() {
+            let images = document.querySelectorAll('.image-container img');
+            images.forEach(img => {
+                img.style.filter = "brightness(50%)";
+            });
+        }
+
+        function reduceResolution() {
+            let images = document.querySelectorAll('.image-container img');
+            images.forEach(img => {
+                let canvas = document.createElement('canvas');
+                let ctx = canvas.getContext('2d');
+                let image = new Image();
+                image.src = img.src;
+                image.onload = function() {
+                    let scaleFactor = 0.5; // Reduce resolution by 50%
+                    canvas.width = image.width * scaleFactor;
+                    canvas.height = image.height * scaleFactor;
+                    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                    img.src = canvas.toDataURL(); // Update image source
+                }
+            });
+        }
+
+        function convertToGrayscale() {
+            let images = document.querySelectorAll('.image-container img');
+            images.forEach(img => {
+                img.style.filter = "grayscale(100%)";
+            });
+        }
+
+        function generateQRCode() {
+            alert("QR code generation feature not implemented yet.");
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+</body>
+</html>
+
+
+
+

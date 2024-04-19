@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wordle</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .game-container {
+      margin-top: 20px;
+    }
+
+    #guessInput {
+      padding: 10px;
+      margin-right: 10px;
+    }
+
+    #feedback {
+      margin-top: 10px;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .wrongPosition {
+      color: yellow;
+    }
+
+    .notInWord {
+      color: grey;
+    }
+  </style>
+</head>
+<body>
+  <h1>Wordle</h1>
+  <div class="game-container">
+    <input type="text" id="guessInput">
+    <button id="guessBtn">Guess</button>
+    <div id="feedback"></div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const guessInput = document.getElementById('guessInput');
+      const guessBtn = document.getElementById('guessBtn');
+      const feedbackDiv = document.getElementById('feedback');
+
+      let attempts = 0;
+
+      guessBtn.addEventListener('click', function () {
+        const guess = guessInput.value.toUpperCase();
+
+        if (guess.length !== 5 || !/^[A-Z]+$/.test(guess)) {
+          alert('Please enter a valid 5-letter word using only alphabets.');
+          return;
+        }
+
+        let feedback = '';
+
+        for (let i = 0; i < 5; i++) {
+          if (guess[i] === targetWord[i]) {
+            feedback += '<span class="correct">●</span>';
+          } else if (targetWord.includes(guess[i])) {
+            feedback += '<span class="wrongPosition">●</span>';
+          } else {
+            feedback += '<span class="notInWord">●</span>';
+          }
+        }
+
+        feedbackDiv.innerHTML += '<div>Attempt ' + (++attempts) + ': ' + feedback + '</div>';
+
+        if (attempts >= 5) {
+          feedbackDiv.innerHTML += '<div class="notInWord">Out of attempts. The correct word was ' + targetWord + '.</div>';
+          guessInput.disabled = true;
+          guessBtn.disabled = true;
+        }
+
+        guessInput.value = '';
+      });
+    });
+  </script>
+</body>
+</html>

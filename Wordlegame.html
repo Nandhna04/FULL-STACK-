@@ -1,0 +1,174 @@
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <title>Wordle</title>-->
+<!--  <style>-->
+<!--    .word-grid {-->
+<!--      border: 2px solid #000;-->
+<!--      padding: 10px;-->
+<!--    }-->
+
+<!--    .letter-box {-->
+<!--      width: 40px;-->
+<!--      height: 40px;-->
+<!--      text-transform: uppercase;-->
+<!--      text-align: center;-->
+<!--      font-weight: bold;-->
+<!--      margin: 5px;-->
+<!--    }-->
+
+<!--    #feedback {-->
+<!--      margin-top: 20px;-->
+<!--      font-weight: bold;-->
+<!--    }-->
+
+<!--    .correct {-->
+<!--      color: green;-->
+<!--    }-->
+
+<!--    .wrongPosition {-->
+<!--      color: yellow;-->
+<!--    }-->
+
+<!--    .notInWord {-->
+<!--      color: grey;-->
+<!--    }-->
+<!--  </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--  <div class="container mt-5">-->
+<!--    <div class="row">-->
+<!--      <div class="col">-->
+<!--        <h1 class="text-center mb-4">Wordle</h1>-->
+<!--        <div class="word-grid">-->
+<!--          <div class="row">-->
+<!--            <input type="text" class="letter-box col" maxlength="1" data-index="0">-->
+<!--            <input type="text" class="letter-box col" maxlength="1" data-index="1">-->
+<!--            <input type="text" class="letter-box col" maxlength="1" data-index="2">-->
+<!--            <input type="text" class="letter-box col" maxlength="1" data-index="3">-->
+<!--            <input type="text" class="letter-box col" maxlength="1" data-index="4">-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <button class="btn btn-primary mt-3" id="guessBtn">Guess</button>-->
+<!--        <div id="feedback" class="mt-3"></div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <script>-->
+<!--    document.getElementById('guessBtn').addEventListener('click', () => {-->
+<!--      const guess = Array.from(document.getElementsByClassName('letter-box')).map(input => input.value.toUpperCase()).join('');-->
+<!--      const targetWord = 'APPLE'; // Change this to the actual target word-->
+<!--      let feedback = '';-->
+
+<!--      for (let i = 0; i < 5; i++) {-->
+<!--        if (guess[i] === targetWord[i]) {-->
+<!--          feedback += <span class="correct">●</span>;-->
+<!--          // Add 'correct' class to the corresponding input box-->
+<!--          document.getElementsByClassName('letter-box')[i].classList.add('correct');-->
+<!--        } else if (targetWord.includes(guess[i])) {-->
+<!--          feedback += <span class="wrongPosition">●</span>;-->
+<!--        } else {-->
+<!--          feedback += <span class="notInWord">●</span>;-->
+<!--        }-->
+<!--      }-->
+
+<!--      document.getElementById('feedback').innerHTML = feedback;-->
+
+<!--      if (guess === targetWord) {-->
+<!--        document.getElementById('feedback').innerHTML = '<span class="correct">Congratulations! You guessed the word!</span>';-->
+<!--      }-->
+<!--    });-->
+<!--  </script>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wordle</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .game-container {
+      margin-top: 20px;
+    }
+
+    #guessInput {
+      padding: 10px;
+      margin-right: 10px;
+    }
+
+    #feedback {
+      margin-top: 10px;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .wrongPosition {
+      color: yellow;
+    }
+
+    .notInWord {
+      color: grey;
+    }
+  </style>
+</head>
+<body>
+  <h1>Wordle</h1>
+  <div class="game-container">
+    <input type="text" id="guessInput">
+    <button id="guessBtn">Guess</button>
+    <div id="feedback"></div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const guessInput = document.getElementById('guessInput');
+      const guessBtn = document.getElementById('guessBtn');
+      const feedbackDiv = document.getElementById('feedback');
+
+      // Sample target word
+      const targetWord = 'APPLE';
+
+
+      guessBtn.addEventListener('click', function () {
+        const guess = guessInput.value.toUpperCase();
+
+        if (guess.length !== 5 || !/^[A-Z]+$/.test(guess)) {
+          alert('Please enter a valid 5-letter word using only alphabets.');
+          return;
+        }
+
+        let feedback = '';
+
+        for (let i = 0; i < 5; i++) {
+          if (guess[i] === targetWord[i]) {
+            feedback += '<span class="correct">●</span>';
+          } else if (targetWord.includes(guess[i])) {
+            feedback += '<span class="wrongPosition">●</span>';
+          } else {
+            feedback += '<span class="notInWord">●</span>';
+          }
+        }
+
+        feedbackDiv.innerHTML = feedback;
+
+        if (guess === targetWord) {
+          feedbackDiv.innerHTML = '<span class="correct">Congratulations! You guessed the word!</span>';
+        }
+
+        guessInput.value = '';
+      });
+    });
+  </script>
+</body>
+</html>
